@@ -1,0 +1,35 @@
+h1 {
+  text-align: center;
+}
+.squares-container {
+  width: fit-content;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 100px));
+  grid-auto-rows: 100px;
+  gap: 50px;
+}
+.square {
+  border: 1px solid black;
+  border-radius: 15px;
+  background-color: rgb(249, 221, 185);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 1s ease;
+}
+.square:hover {
+  color: rgb(249, 221, 185);
+  background-color: black;
+}
+
+h2{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 50px;
+  font: 40px;
+}

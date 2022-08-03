@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ES6</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>SQUARES</h1>
+      <div class="squares-container">
+        <div class="square" onclick="handle1Click()">1</div>
+        <div class="square" onclick="handle2Click()">2</div>
+        <div class="square" onclick="handle3Click([{a: 1, b: 2}, {a: [1,4], b: 3, c: 'hey'}])">3</div>
+        <div class="square" onclick="handle4Click()">4</div>
+        <div class="square" onclick="handle5Click([1,5,2,3,8,10], (a, b) => a - b)">5</div>
+        <div class="square" onclick="handle6Click([4,2,3], x => x > 1)">6</div>
+        <div class="square" onclick="handle7Click([{id: 0, value: 'a'}, {id: 1, value: 'b'}, {id: 2, value: 'c'}, {id: 1, value: 'd'}, {id: 0, value: 'e'}], (a, b) => a.id == b.id)">7</div>
+        <div class="square" onclick="handle8Click()">8</div>
+        <div class="square" onclick="handle9Click()">9</div>
+      </div>
+    </div>
+
+    <h2 id="result-answer"></h2>
+    <script src="Exrc.js"></script>
+  </body>
+</html>
