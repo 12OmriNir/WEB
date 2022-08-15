@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Save The Planet</title>
+    <script type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" href="Libs/bootstrap.css" />
+    <link rel="stylesheet" href="Libs/bootstrap-rtl.min.css" />
+    <script type="text/javascript" src="Libs/all.js"></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-1 col-md-offset-2" style="width:max-content">
+          <span id="searchText">
+            <span>
+              <i class="fas fa-search fa-sm"></i>
+            </span>
+            חיפוש
+          </span>
+        </div>
+        <input id="Search" class="col-md-2" />
+      </div>
+
+      <div class="row">
+        <table id="MyTable" class="col-md-8 col-md-offset-2"></table>
+      </div>
+      <div class="row">
+        <img id="img" class="col-md-4 col-md-offset-2" />
+        <div class="col-md-4" id="shtut">
+          <div id="closeButton">X</div>
+          <div id="Title"></div>
+          <h2 id="ExtraInfo"></h2>
+          <div id="EditButton" class="fas fa-edit fa-2x"></div>
+          <div id="edit">
+            <textarea
+              id="editExtraInfo"
+              placeholder="הקלד תיאור (גדול מ5 תווים!)"
+            ></textarea>
+            <div
+              onclick="validate()"
+              class="fas fa-check-circle fa-2x"
+              style="float: left; padding-bottom: 10px"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div id="myModal" class="modal">
+        <span class="close">X</span>
+        <img id="myImg" class="modal-content" />
+        <div id="caption"></div>
+      </div>
+    </div>
+  </body>
+</html>
