@@ -39,22 +39,24 @@ const parkingClick = (e) => {
 /**
  * Mark parking as taken
  */
-const deleteCurrParking = () => {
+const deleteCurrParking = async () => {
 	var requestOptions = {
 		method: 'DELETE',
 		redirect: 'follow'
 	  };
 	  
-	  fetch(`http://localhost:4000/api/parkingSpots/${currParkingId}`, requestOptions)
-		.then(response => response.text())
-		.then(result => refreshParkings())
-		.catch(error => console.log('error', error));
+	  try{
+      await fetch(`http://localhost:4000/api/parkingSpots/${currParkingId}`, requestOptions);
+      await refreshParkings()
+    }catch(e){
+      console.log(e.message)
+    }
 };
 
 /**
  * Add new parking
  */
-const addParking = () => {
+const addParking = async () => {
   // Getting the coords
   const coords = document
     .getElementById("newParkingCoord")
@@ -63,7 +65,7 @@ const addParking = () => {
     .replace(")", "")
     .split(",");
 
-  var myHeaders = new Headers();
+  const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   const raw = JSON.stringify({
@@ -72,60 +74,50 @@ const addParking = () => {
     address: document.getElementById("newParkingAddress").value,
   });
 
-  var requestOptions = {
+  const requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
 
-  fetch("http://localhost:4000/api/parkingSpots", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(refreshParkings()))
-    .catch((error) => console.log("error", error));
+  try{
+    await fetch("http://localhost:4000/api/parkingSpots", requestOptions)
+    await refreshParkings()
+  }catch (e){
+    console.log('error', e)
+  }
 };
 
 /**
  * Refresh the parkings that draws on the map (delete all and redraw them)
  */
-const refreshParkings = () => {
+const refreshParkings = async () => {
   $(".button-collapse").sideNav("hide");
   Array.from(document.getElementsByClassName("parking")).forEach((e) =>
     e.remove()
   );
-  loadParkings();
+  await loadParkings();
 };
 
-const loadParkings = () => {
-  fetch("http://localhost:4000/api/parkingSpots", {
-    method: "GET",
-    headers: { "content-type": "application/json" },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      drawParkings(data);
-    });
+const loadParkings = async() => {
+  const response = await fetch("http://localhost:4000/api/parkingSpots", {method: "GET",headers: { "content-type": "application/json" }});
+  const data = await response.json()
+  drawParkings(data)
 };
 
 /**
  * load specific parking's details
  * @param {int} id id of the parking to get details on
  */
-const loadSpecificParking = (id) => {
-  fetch(`http://localhost:4000/api/parkingSpots/${id}`, {
+const loadSpecificParking = async (id) => {
+  const response = await fetch(`http://localhost:4000/api/parkingSpots/${id}`, {
     method: "GET",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json" }
   })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      showParkingDetails(data);
-    });
+  
+  const data = await response.json();
+  showParkingDetails(data)
 };
 
 /**

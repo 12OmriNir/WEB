@@ -6,42 +6,33 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-const {readParkingSpots, updateParkingSpotsFile} = require('./utiles.js')
+const {readParkingSpots, addNewParkingSpot, getSpecificParkingSpot, deleteParkingSpot} = require('./utiles.js')
 
-const parkingSpots = readParkingSpots()
-
-app.get('/api/parkingSpots', (req, res) => {
-
-    res.send(parkingSpots)
+app.get('/api/parkingSpots', async (req, res) => {
+  const parkingSpots = await readParkingSpots()
+  res.send(parkingSpots)
 })
 
-app.get('/api/parkingSpots/:id', (req, res) => {
-
-    const parkingSpot = parkingSpots.find(spot => spot.id === req.params.id)
-
-    if(!parkingSpot){
-        res.status(404).send("This parking spot does not exist")
-    }
-    else{
-        res.send(parkingSpot)
-    }
-})
-
-app.delete('/api/parkingSpots/:id', (req, res) => {
-  const parkingId = req.params.id;
-
-  //findIndex+splice
-  const indexToRemove = parkingSpots.findIndex((parking) => parking.id === parkingId);
-  if (indexToRemove === -1) {
-    res.status(404).send("Parking not found. Deletion failed.");
-  } else {
-    parkingSpots.splice(indexToRemove, 1);
-    updateParkingSpotsFile(parkingSpots);
-    res.send(`Parking ${parkingId} has been deleted`);
+app.get('/api/parkingSpots/:id', async (req, res) => {
+  
+  const parkingSpot = await getSpecificParkingSpot(req.params.id)
+  
+  if(!parkingSpot){
+    res.status(404).send("This parking spot does not exist")
+  }
+  else{
+    res.send(parkingSpot)
   }
 })
 
-app.post('/api/parkingSpots', (req, res) => {
+app.delete('/api/parkingSpots/:id', async(req, res) => {
+  
+  const success = await deleteParkingSpot(req.params.id)
+
+  res.send(success)
+})
+
+app.post('/api/parkingSpots', async(req, res) => {
     const newParking = {
         id: shortid.generate(),
         x_coord: req.body.x_coord,
@@ -50,9 +41,8 @@ app.post('/api/parkingSpots', (req, res) => {
         time: Date.now()
     }
 
-    parkingSpots.push(newParking)
-    updateParkingSpotsFile(parkingSpots)
+    await addNewParkingSpot(Object.values(newParking))
     res.send(newParking)
 })
 
-app.listen(4000, () => console.log('Server Working...'))
+app.listen(2000 , () => console.log('Server Working...'))

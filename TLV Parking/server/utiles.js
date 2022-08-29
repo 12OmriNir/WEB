@@ -1,15 +1,28 @@
-const fs = require('fs')
+const {executeQuery} = require('./DBConnector.js')
 
 
-const readParkingSpots = () => {
-    return JSON.parse(fs.readFileSync('./server/parkingSpots.json'), "utf8")
+const readParkingSpots = async () => {
+    const res = await executeQuery('SELECT * FROM parkingspots')
+    return res.rows;
 }
 
-const updateParkingSpotsFile = (parkingSpots) => {
-    fs.writeFileSync('./server/parkingSpots.json', JSON.stringify(parkingSpots), "utf8")
+const getSpecificParkingSpot = async (id) => {
+    const res = await executeQuery('SELECT * FROM parkingspots WHERE id = $1', [id])
+    return res.rows[0];
+}
+
+const addNewParkingSpot = async (values) => {
+    const res = await executeQuery('INSERT INTO parkingspots VALUES ($1,$2,$3,$4,$5)', values)
+    return res.rows[0];
+}
+
+const deleteParkingSpot = async (id) => { 
+    await executeQuery('DELETE FROM parkingspots WHERE id = $1', [id])
 }
 
 module.exports = {
     readParkingSpots,
-    updateParkingSpotsFile
+    getSpecificParkingSpot,
+    addNewParkingSpot,
+    deleteParkingSpot
 }
